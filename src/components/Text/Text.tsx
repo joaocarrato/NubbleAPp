@@ -7,21 +7,56 @@ import {
 
 interface TextProps extends RNTextProps {
   preset?: TextVariants;
+  bold?: boolean;
+  italic?: boolean;
+  semiBold?: boolean;
 }
 
 export function Text({
   preset = 'paragraphMedium',
   children,
   style,
+  bold,
+  italic,
+  semiBold,
   ...rest
 }: TextProps) {
+  const fontFamily = getFontFamily(preset, bold, italic, semiBold);
   return (
-    <RNText
-      style={[$fontSizes[preset], { fontFamily: $fontFamily.italic }, style]}
-      {...rest}>
+    <RNText style={[$fontSizes[preset], { fontFamily }, style]} {...rest}>
       {children}
     </RNText>
   );
+}
+
+function getFontFamily(
+  preset: TextVariants,
+  bold?: boolean,
+  italic?: boolean,
+  semiBold?: boolean,
+) {
+  if (
+    preset === 'headingLarge' ||
+    preset === 'headingMedium' ||
+    preset === 'headingSmall'
+  ) {
+    return italic ? $fontFamily.boldItalic : $fontFamily.bold;
+  }
+
+  switch (true) {
+    case bold && italic:
+      return $fontFamily.boldItalic;
+    case bold:
+      return $fontFamily.bold;
+    case italic:
+      return $fontFamily.italic;
+    case semiBold && italic:
+      return $fontFamily.mediumItalic;
+    case semiBold:
+      return $fontFamily.medium;
+    default:
+      return $fontFamily.regular;
+  }
 }
 
 // Type of text variants
@@ -49,6 +84,7 @@ const $fontSizes: Record<TextVariants, TextStyle> = {
   paragraphCaptionSmall: { fontSize: 10, lineHeight: 14 },
 };
 
+// Creating font family object
 const $fontFamily = {
   black: 'Satoshi-Black',
   blackItalic: 'Satoshi-BlackItalic',
