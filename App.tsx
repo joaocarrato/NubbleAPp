@@ -1,25 +1,48 @@
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
-import { Text } from './src/components/Text/Text';
+import { SafeAreaView } from 'react-native';
 import { ThemeProvider } from '@shopify/restyle';
 import { theme } from './src/theme/theme';
-import { EyeOffIcon } from './src/assets/icons/EyeOffIcon';
-import { EyeOnIcon } from './src/assets/icons/EyeOnIcon';
 import { Box } from './src/components/Box/Box';
+import { Text } from './src/components/Text/Text';
+import { Button } from './src/components/Button/Button';
+import { TextInput } from './src/components/TextInput/TextInput';
 import { Icon } from './src/components/Icon/Icon';
 
 function App(): React.JSX.Element {
   return (
     <ThemeProvider theme={theme}>
-      <View style={{ paddingHorizontal: 24 }}>
-        <SafeAreaView>
-          <Text preset="headingLarge">Coffstack</Text>
+      <SafeAreaView>
+        <Box px="s24">
+          <Text mb="s8" preset="headingLarge">
+            Olá!
+          </Text>
 
-          <Box flexDirection="row" gap="s8">
-            <Icon name="eyeOn" color="carrotSecondary" size={40} />
-          </Box>
-        </SafeAreaView>
-      </View>
+          <Text preset="paragraphLarge" mb="s40">
+            Digite seu e-mail e senha para entrar
+          </Text>
+
+          <TextInput
+            errorMessage="mensagem de erro"
+            label="E-mail"
+            placeholder="Digite seu e-mail"
+            BoxProps={{ mb: 's20' }}
+          />
+
+          <TextInput
+            label="Senha"
+            placeholder="Digite sua senha"
+            RightComponent={<Icon name="eyeOn" />}
+            BoxProps={{ mb: 's10' }}
+          />
+
+          <Text color="primary" preset="paragraphSmall" bold>
+            Esqueci minha senha
+          </Text>
+
+          <Button mt="s48" title="Entrar" />
+          <Button preset="outline" mt="s12" title="Criar uma conta" />
+        </Box>
+      </SafeAreaView>
     </ThemeProvider>
   );
 }
