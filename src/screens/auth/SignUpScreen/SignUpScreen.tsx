@@ -4,6 +4,7 @@ import { Text } from '../../../components/Text/Text';
 import { TextInput } from '../../../components/TextInput/TextInput';
 import { Icon } from '../../../components/Icon/Icon';
 import { Button } from '../../../components/Button/Button';
+import { PasswordInput } from '../../../components/PasswordInput/PasswordInput';
 
 export function SignUpScreen() {
   function submitForm() {
@@ -11,7 +12,7 @@ export function SignUpScreen() {
   }
 
   return (
-    <Screen canGoBack>
+    <Screen canGoBack scrollable>
       <Text preset="headingLarge" mb="s32">
         Criar uma conta
       </Text>
