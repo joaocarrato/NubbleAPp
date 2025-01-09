@@ -33,10 +33,9 @@ export function SignUpScreen() {
         BoxProps={{ mb: 's20' }}
       />
 
-      <TextInput
+      <PasswordInput
         label="Senha"
         placeholder="Digite sua senha"
-        RightComponent={<Icon name="eyeOn" color="gray2" />}
         BoxProps={{ mb: 's48' }}
       />
 
