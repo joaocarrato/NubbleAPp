@@ -1,24 +1,48 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
+import { useForm } from 'react-hook-form';
+
+import { Button } from '../../../components/Button/Button';
+
 import { Screen } from '../../../components/Screen/Screen';
 import { Text } from '../../../components/Text/Text';
-import { TextInput } from '../../../components/TextInput/TextInput';
-import { Button } from '../../../components/Button/Button';
-import { PasswordInput } from '../../../components/PasswordInput/PasswordInput';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../routes/Routes';
 import { useResetNavigationSuccess } from '../../../hooks/useResetNavigationSuccess';
+import { RootStackParamList } from '../../../routes/Routes';
+import { FormTextInput } from '../../../components/Form/FormTextInput';
+import { FormPasswordTextInput } from '../../../components/Form/FormPasswordTextInput';
+
+type SignUpFormType = {
+  username: string;
+  fullName: string;
+  email: string;
+  password: string;
+};
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpScreen'>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function SignUpScreen({ navigation }: ScreenProps) {
   const { reset } = useResetNavigationSuccess();
-  function submitForm() {
+  const { control, handleSubmit, formState } = useForm<SignUpFormType>({
+    defaultValues: {
+      username: '',
+      fullName: '',
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  function onSubmit(data: SignUpFormType) {
+    console.log(
+      `username: ${data.username}, fullname: ${data.fullName}, email: ${data.email}, password: ${data.password}`,
+    );
     reset({
-      title: 'Sua conta foi criada com sucesso!',
+      title: 'Sua conta foi criada com sucesso',
       description: 'Agora é só fazer login na nossa plataforma',
       icon: {
         name: 'checkRound',
-        color: 'greenSuccess',
+        color: 'success',
       },
     });
   }
@@ -29,29 +53,58 @@ export function SignUpScreen({ navigation }: ScreenProps) {
         Criar uma conta
       </Text>
 
-      <TextInput
+      <FormTextInput
+        control={control}
+        name="username"
+        rules={{ required: 'Username obrigatório' }}
         label="Seu username"
         placeholder="@"
-        BoxProps={{ mb: 's20' }}
+        boxProps={{ mb: 's16' }}
       />
-      <TextInput
+
+      <FormTextInput
+        control={control}
+        name="fullName"
+        rules={{ required: 'Nome completo obrigatório' }}
         label="Nome completo"
         placeholder="Digite seu nome completo"
-        BoxProps={{ mb: 's20' }}
+        boxProps={{ mb: 's16' }}
       />
-      <TextInput
+
+      <FormTextInput
+        control={control}
+        name="email"
+        rules={{
+          pattern: {
+            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: 'E-mail inválido',
+          },
+        }}
         label="E-mail"
         placeholder="Digite seu e-mail"
-        BoxProps={{ mb: 's20' }}
+        autoCapitalize="none"
+        boxProps={{ mb: 's16' }}
       />
 
-      <PasswordInput
+      <FormPasswordTextInput
+        control={control}
+        name="password"
+        rules={{
+          minLength: {
+            value: 8,
+            message: 'Senha deve conter no mínimo 8 caracteres',
+          },
+        }}
         label="Senha"
         placeholder="Digite sua senha"
-        BoxProps={{ mb: 's48' }}
+        boxProps={{ mb: 's48' }}
       />
 
-      <Button title="Criar uma conta" preset="primary" onPress={submitForm} />
+      <Button
+        title="Criar minha conta"
+        onPress={handleSubmit(onSubmit)}
+        disabled={!formState.isValid}
+      />
     </Screen>
   );
 }

@@ -12,15 +12,15 @@ import { useAppTheme } from '../../hooks/useAppTheme';
 export interface TextInputProps extends RNTextInputProps {
   label: string;
   errorMessage?: string;
-  RightComponent?: React.ReactElement;
-  BoxProps?: BoxProps;
+  rightComponent?: React.ReactElement;
+  boxProps?: BoxProps;
 }
 
 export function TextInput({
   label,
   errorMessage,
-  RightComponent,
-  BoxProps,
+  rightComponent,
+  boxProps,
   ...rest
 }: TextInputProps) {
   const { colors } = useAppTheme();
@@ -39,21 +39,22 @@ export function TextInput({
   }
 
   return (
-    <Box {...BoxProps}>
+    <Box {...boxProps}>
       <Pressable onPress={inputFocus}>
         <Text mb="s4" preset="paragraphMedium">
           {label}
         </Text>
         <Box {...$textInputContainer}>
           <RNTextInput
+            autoCapitalize="none"
             ref={inputRef}
             placeholderTextColor={colors.gray2}
             style={$textInputStyle}
             {...rest}
           />
-          {RightComponent && (
+          {rightComponent && (
             <Box justifyContent="center" ml="s16">
-              {RightComponent}
+              {rightComponent}
             </Box>
           )}
         </Box>
