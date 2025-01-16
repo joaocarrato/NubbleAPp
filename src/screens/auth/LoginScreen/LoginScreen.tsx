@@ -1,33 +1,31 @@
 import React from 'react';
 import { Text } from '../../../components/Text/Text';
-import { TextInput } from '../../../components/TextInput/TextInput';
+
 import { Button } from '../../../components/Button/Button';
 import { Screen } from '../../../components/Screen/Screen';
-import { PasswordInput } from '../../../components/PasswordInput/PasswordInput';
+
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../routes/Routes';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Alert } from 'react-native';
 import { FormTextInput } from '../../../components/Form/FormTextInput';
 import { FormPasswordTextInput } from '../../../components/Form/FormPasswordTextInput';
-
-type LoginFormType = {
-  email: string;
-  password: string;
-};
+import { loginSchema, LoginSchema } from './loginSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
 
 export function LoginScreen({ navigation }: ScreenProps) {
-  const { control, formState, handleSubmit } = useForm<LoginFormType>({
+  const { control, formState, handleSubmit } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  function onSubmit({ email, password }: LoginFormType) {
-    Alert.alert(`E-mail: ${email}`);
+  function onSubmit({ email, password }: LoginSchema) {
+    Alert.alert(`E-mail: ${email} password:${password}`);
   }
 
   function navigateToSignUpScreen() {
@@ -50,12 +48,6 @@ export function LoginScreen({ navigation }: ScreenProps) {
       <FormTextInput
         control={control}
         name="email"
-        rules={{
-          pattern: {
-            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-            message: 'E-mail inválido',
-          },
-        }}
         label="E-mail"
         placeholder="Digite seu e-mail"
         boxProps={{ mb: 's20' }}
@@ -65,12 +57,6 @@ export function LoginScreen({ navigation }: ScreenProps) {
         control={control}
         name="password"
         label="Senha"
-        rules={{
-          minLength: {
-            value: 8,
-            message: 'Senha deve conter no mínimo 8 caracteres',
-          },
-        }}
         placeholder="Digite sua senha"
         boxProps={{ mb: 's10' }}
       />
@@ -83,7 +69,12 @@ export function LoginScreen({ navigation }: ScreenProps) {
         Esqueci minha senha
       </Text>
 
-      <Button mt="s48" title="Entrar" onPress={handleSubmit(onSubmit)} />
+      <Button
+        mt="s48"
+        title="Entrar"
+        onPress={handleSubmit(onSubmit)}
+        disabled={!formState.isValid}
+      />
       <Button
         preset="outline"
         mt="s12"
