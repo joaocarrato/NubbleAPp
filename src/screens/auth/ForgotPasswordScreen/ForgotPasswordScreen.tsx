@@ -1,12 +1,10 @@
 import React from 'react';
-import { Screen } from '../../../components/Screen/Screen';
-import { Text } from '../../../components/Text/Text';
-import { TextInput } from '../../../components/TextInput/TextInput';
-import { Button } from '../../../components/Button/Button';
+import { Screen, Text, Button, FormTextInput } from '@components';
+
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../routes/Routes';
-import { useResetNavigationSuccess } from '../../../hooks/useResetNavigationSuccess';
-import { FormTextInput } from '../../../components/Form/FormTextInput';
+import { RootStackParamList } from '@routes';
+import { useResetNavigationSuccess } from '@hooks';
+
 import { useForm } from 'react-hook-form';
 import {
   forgotPasswordSchema,
@@ -19,6 +17,7 @@ type ScreenProps = NativeStackScreenProps<
   'ForgotPasswordScreen'
 >;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ForgotPasswordScreen({ navigation }: ScreenProps) {
   const { control, handleSubmit, formState } = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -29,6 +28,7 @@ export function ForgotPasswordScreen({ navigation }: ScreenProps) {
   });
 
   const { reset } = useResetNavigationSuccess();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function onSubmit(props: ForgotPasswordSchema) {
     reset({
       title: `Enviamos as instruções${'\n'}para seu e-mail`,
