@@ -28,8 +28,6 @@ export function AppTabBar({
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
 
-        console.log(route.name);
-
         const tabItem =
           mapScreenToProps[route.name as keyof AppTabBottomTabParamList];
         const isFocused = state.index === index;
