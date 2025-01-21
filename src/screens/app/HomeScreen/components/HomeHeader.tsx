@@ -9,7 +9,6 @@ export function HomeHeader() {
   const { top } = useAppSafeArea();
   return (
     <Box style={{ paddingTop: top }} {...$wrapper}>
-      {/* <Box backgroundColor="carrotSecondary" width={70} height={16} /> */}
       <SimpleLogo width={70} />
       <Box flexDirection="row" gap="s24">
         <Icon name="search" />
