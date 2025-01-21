@@ -22,6 +22,7 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
       email: '',
       password: '',
     },
+    mode: 'onChange',
   });
 
   function onSubmit({ email, password }: LoginSchema) {
