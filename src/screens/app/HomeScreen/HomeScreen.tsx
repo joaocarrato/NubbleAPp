@@ -13,8 +13,7 @@ import { useScrollToTop } from '@react-navigation/native';
 import { PostItem, Screen } from '@components';
 import { AppTabScreenProps } from '@routes';
 
-import { HomeEmpty } from './components/HomeEmpty';
-import { HomeHeader } from './components/HomeHeader';
+import { HomeEmpty, HomeHeader } from './components';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
@@ -22,6 +21,7 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
 
   const flatListRef = useRef<FlatList<Post>>(null);
   useScrollToTop(flatListRef);
+
   function renderItem({ item }: ListRenderItemInfo<Post>) {
     return <PostItem post={item} />;
   }
@@ -32,7 +32,7 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
         ref={flatListRef}
         showsVerticalScrollIndicator={false}
         data={postList}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         onEndReached={fetchNextPage}
         onEndReachedThreshold={0.1}
         refreshControl={
