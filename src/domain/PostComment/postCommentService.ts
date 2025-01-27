@@ -1,9 +1,9 @@
-import { apiAdapter } from '@api';
-import { Page } from '@types';
+import {apiAdapter} from '@api';
+import {Page} from '@types';
 
-import { postCommentAdapter } from './postCommentAdapter';
-import { postCommentApi } from './postCommentApi';
-import { PostComment } from './postCommentTypes';
+import {postCommentAdapter} from './postCommentAdapter';
+import {postCommentApi} from './postCommentApi';
+import {PostComment} from './postCommentTypes';
 
 const PER_PAGE = 5;
 async function getList(
@@ -31,4 +31,27 @@ async function remove(postCommentId: number): Promise<string> {
   return response.message;
 }
 
-export const postCommentService = { getList, create, remove };
+/**
+ * @description Usuário pode deletar o comentário se for o autor do post ou do comentário
+ *
+ * @param userId Sessão atual do usuário
+ * @param  postComment Comentário a ser deletado
+ * @param postAuthorId O id do autor do post
+ */
+function isAllowToDelete(
+  postComment: PostComment,
+  userId: number,
+  postAuthorId: number,
+): boolean {
+  if (postComment.author.id === userId) {
+    return true;
+  }
+
+  if (postAuthorId === userId) {
+    return true;
+  }
+
+  return false;
+}
+
+export const postCommentService = {getList, create, remove, isAllowToDelete};

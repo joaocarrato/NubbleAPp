@@ -1,17 +1,22 @@
 import React from 'react';
 
-import { Post } from '@domain';
-import { useNavigation } from '@react-navigation/native';
+import {Post} from '@domain';
+import {useNavigation} from '@react-navigation/native';
 
-import { Box, Text } from '@components';
+import {Box, Text} from '@components';
 
 type Props = Pick<Post, 'author' | 'text' | 'commentCount' | 'id'>;
 
-export function PostBottom({ author, text, commentCount, id }: Props) {
+export function PostBottom({author, text, commentCount, id}: Props) {
   const commentText = getCommentText(commentCount);
+
   const navigation = useNavigation();
+
   function navigateToPostCommentScreen() {
-    navigation.navigate('PostCommentScreen', { postId: id });
+    navigation.navigate('PostCommentScreen', {
+      postId: id,
+      postAuthorId: author.id,
+    });
   }
 
   return (

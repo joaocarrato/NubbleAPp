@@ -1,4 +1,4 @@
-import { Post, PostAPI } from './postTypes';
+import {Post, PostAPI} from './postTypes';
 
 /**
  *
@@ -12,6 +12,7 @@ function toPost(postAPI: PostAPI): Post {
       profileURL: postAPI.user.profile_url,
       name: postAPI.user.full_name,
       userName: postAPI.user.username,
+      id: postAPI.user.id,
     },
     imageURL: postAPI.image_url,
     reactionCount: parseInt(postAPI.meta.like_count, 10),
@@ -20,4 +21,4 @@ function toPost(postAPI: PostAPI): Post {
   };
 }
 
-export const postAdapter = { toPost };
+export const postAdapter = {toPost};

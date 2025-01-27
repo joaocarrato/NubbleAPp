@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { Page } from '@types';
+import {Page} from '@types';
 
 export function usePaginatedList<Data>(
   getList: (page: number) => Promise<Page<Data>>,
@@ -15,11 +15,10 @@ export function usePaginatedList<Data>(
     try {
       setError(null);
       setLoading(true);
-      const { data, meta } = await getList(page);
+      const {data, meta} = await getList(1);
       setList(data);
       if (meta.hasNextPage) {
         setPage(2);
-        setHasNextPage(true);
       } else {
         setHasNextPage(false);
       }
@@ -36,7 +35,7 @@ export function usePaginatedList<Data>(
     }
     try {
       setLoading(true);
-      const { data, meta } = await getList(page);
+      const {data, meta} = await getList(page);
       setList(prev => [...prev, ...data]);
       if (meta.hasNextPage) {
         setPage(prev => prev + 1);
