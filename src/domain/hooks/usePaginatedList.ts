@@ -19,6 +19,7 @@ export function usePaginatedList<Data>(
       setList(data);
       if (meta.hasNextPage) {
         setPage(2);
+        setHasNextPage(true);
       } else {
         setHasNextPage(false);
       }
